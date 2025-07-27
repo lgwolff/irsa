@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Add Product</title>
+  <link href="output.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-50 p-8 min-h-screen">
+  <div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-2xl font-bold mb-6">Add New Product</h1>
+    <form id="product-form" class="space-y-4">
+      <div>
+        <label for="name" class="block font-semibold mb-1">Product Name</label>
+        <input type="text" id="name" name="name" required class="w-full border px-3 py-2 rounded" />
+      </div>
+      <div>
+        <label for="description" class="block font-semibold mb-1">Description</label>
+        <textarea id="description" name="description" rows="3" required class="w-full border px-3 py-2 rounded"></textarea>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="price" class="block font-semibold mb-1">Price ($)</label>
+          <input type="number" id="price" name="price" step="0.01" min="0" required class="w-full border px-3 py-2 rounded" />
+        </div>
+        <div>
+          <label for="stock" class="block font-semibold mb-1">Stock Quantity</label>
+          <input type="number" id="stock" name="stock" min="0" required class="w-full border px-3 py-2 rounded" />
+        </div>
+      </div>
+      <div>
+        <label for="category" class="block font-semibold mb-1">Category</label>
+        <input type="text" id="category" name="category" required class="w-full border px-3 py-2 rounded" />
+      </div>
+      <div>
+        <label for="tags" class="block font-semibold mb-1">Tags (comma separated)</label>
+        <input type="text" id="tags" name="tags" placeholder="e.g. new, sale, hot" class="w-full border px-3 py-2 rounded" />
+      </div>
+      <div>
+        <label for="images" class="block font-semibold mb-1">Image URLs (comma separated)</label>
+        <input type="text" id="images" name="images" placeholder="https://example.com/image1.jpg, https://example.com/image2.jpg" class="w-full border px-3 py-2 rounded" />
+        <p class="text-sm text-gray-500 mt-1">For now, use direct image URLs. We’ll add file upload later.</p>
+      </div>
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+        Upload Product
+      </button>
+      <p id="form-message" class="mt-4 font-semibold"></p>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('product-form');
+    const message = document.getElementById('form-message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      message.textContent = '';
+      const data = {
+        name: form.name.value.trim(),
+        description: form.description.value.trim(),
+        price: parseFloat(form.price.value),
+        stock: parseInt(form.stock.value),
+        category: form.category.value.trim(),
+        tags: form.tags.value
+          ? form.tags.value.split(',').map(tag => tag.trim()).filter(Boolean)
+          : [],
+        images: form.images.value
+          ? form.images.value.split(',').map(url => url.trim()).filter(Boolean)
+          : []
+      };
+
+      try {
+        const res = await fetch('https://irsa-backend.onrender.com/api/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error(`Error: ${res.status}`);
+        const result = await res.json();
+        message.textContent = 'Product uploaded successfully!';
+        message.className = 'mt-4 font-semibold text-green-600';
+        form.reset();
+      } catch (err) {
+        message.textContent = 'Failed to upload product. Try again.';
+        message.className = 'mt-4 font-semibold text-red-600';
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
