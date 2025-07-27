@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Bulk Upload Products</title>
+  <link href="output.css" rel="stylesheet" />
+</head>
+<body class="bg-gray-100 p-6 min-h-screen">
+  <main class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-2xl font-bold mb-4">Bulk Upload Products (CSV)</h1>
+
+    <form id="bulk-upload-form" class="space-y-4">
+      <input
+        type="file"
+        id="csv-file"
+        accept=".csv"
+        required
+        class="block w-full border border-gray-300 rounded px-3 py-2"
+      />
+      <button
+        type="submit"
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+      >
+        Upload
+      </button>
+    </form>
+
+    <pre
+      id="upload-result"
+      class="mt-6 p-4 bg-gray-200 rounded whitespace-pre-wrap text-sm"
+    ></pre>
+  </main>
+
+  <script>
+    const form = document.getElementById('bulk-upload-form');
+    const fileInput = document.getElementById('csv-file');
+    const resultEl = document.getElementById('upload-result');
+    const apiUrl = 'https://irsa-backend.onrender.com/api/products/bulk-upload';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      resultEl.textContent = 'Uploading...';
+
+      const file = fileInput.files[0];
+      if (!file) {
+        resultEl.textContent = 'Please select a CSV file.';
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const res = await fetch(apiUrl, { method: 'POST', body: formData });
+        const data = await res.json();
+
+        if (!res.ok) {
+          resultEl.textContent = 'Upload failed: ' + (data.message || 'Unknown error');
+          return;
+        }
+
+        let message = `Upload complete.\nInserted: ${data.insertedCount}\nErrors: ${data.errorCount}`;
+        if (data.errorCount > 0) {
+          message += '\nErrors:\n' + data.errors.map(e => `Row ${e.row}: ${e.error}`).join('\n');
+        }
+        resultEl.textContent = message;
+
+        fileInput.value = '';
+      } catch (err) {
+        resultEl.textContent = 'Upload error: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
