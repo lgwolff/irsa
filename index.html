@@ -8,9 +8,47 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 text-gray-800">
-  <header class="p-4 bg-white shadow">
-    <h1 class="text-center text-xl font-bold">Irsa Bhatti Traders</h1>
-  </header>
+<!-- HEADER START -->
+<header class="bg-white shadow p-4">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <!-- Left: Logo -->
+    <div class="flex items-center space-x-2">
+      <img src="/favicon.ico" alt="Irsa Logo" class="h-8 w-8" />
+      <span class="text-xl font-bold text-gray-800">Irsa</span>
+    </div>
+
+    <!-- Center: Search Bar -->
+    <div class="flex-1 mx-8 hidden md:block">
+      <input
+        type="text"
+        placeholder="Search for products..."
+        class="w-full px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+    </div>
+
+    <!-- Right: Icons -->
+    <div class="flex items-center space-x-4 text-gray-600">
+      <a href="#" title="Account" class="hover:text-blue-500">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A9.958 9.958 0 0012 20a9.958 9.958 0 006.879-2.196M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+      </a>
+      <a href="#" title="Wishlist" class="hover:text-red-500">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 016.364 6.364L12 21.364 4.318 13.682a4.5 4.5 0 010-6.364z"/>
+        </svg>
+      </a>
+      <a href="#" title="Cart" class="hover:text-green-500 relative">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1 2m1-2l1 2m10 0l1-2m-1 2l-1 2M6 19a2 2 0 100-4 2 2 0 000 4zm12 0a2 2 0 100-4 2 2 0 000 4z"/>
+        </svg>
+        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+      </a>
+    </div>
+  </div>
+</header>
+<!-- HEADER END -->
+
 
   <main class="p-6 text-center">
     <p>Welcome to Irsa Bhatti Traders</p>
