@@ -129,36 +129,44 @@
         return;
       }
 
-    products.forEach(product => {
-  const div = document.createElement('div');
-  div.className = 'border rounded p-4 flex flex-col cursor-pointer transition-transform hover:scale-105';
-  div.onclick = () => window.location.href = `/product.html?slug=${product.slug}`;
+      products.forEach(product => {
+        const div = document.createElement('div');
+        div.className = 'border rounded p-4 flex flex-col';
+div.innerHTML = `
+<div class="relative mb-4 h-48 overflow-hidden rounded">
+  <img 
+    src="${product.images?.[0] || 'https://via.placeholder.com/300x200?text=No+Image'}"
+    alt="${product.name}"
+    class="w-full h-full object-cover"
+    loading="lazy"
+  />
+${
+  product.tags?.length
+    ? `
+    <div class="absolute top-1 right-1 flex flex-col gap-1 z-10">
+      ${product.tags.map(tag => `
+        <span class="flex items-center gap-1 px-2 py-1 text-xs font-bold text-yellow-100 bg-gradient-to-br from-red-600 to-orange-500 rounded-full shadow-lg ring-2 ring-red-700">
+          <svg class="w-4 h-4 text-yellow-200" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M13.28 2.49a.75.75 0 0 1 1.17.64c.01.52-.08 1.1-.26 1.61a7.97 7.97 0 0 1-1.25 2.26c-.21.3-.19.71.05.98A4.25 4.25 0 0 1 10 14a4.25 4.25 0 0 1-4.25-4.25c0-1.01.36-1.96.97-2.68a6.7 6.7 0 0 0 1.35-2.39c.16-.6.15-1.2.05-1.8a.75.75 0 0 1 1.3-.63c.87.9 1.61 2.1 2.27 3.32a12.45 12.45 0 0 0 1.59-4.58z"/>
+          </svg>
+          ${tag.trim()}
+        </span>
+      `).join('')}
+    </div>
+  `
+    : ''
+}
+</div>
 
- div.innerHTML = `
-  <div class="relative">
-    <img src="${product.images?.[0] || 'https://via.placeholder.com/300x200?text=No+Image'}"
-         alt="${product.name}"
-         class="mb-4 h-48 object-cover rounded w-full"
-         loading="lazy" />
-    ${
-      product.tags?.length
-        ? `
-        <div class="absolute top-1 right-1 flex flex-col gap-1 z-10">
-          ${product.tags.map(tag => `
-            <span class="flex items-center gap-1 px-2 py-1 text-xs font-bold text-yellow-100 bg-gradient-to-br from-red-600 to-orange-500 rounded-full shadow-lg ring-2 ring-red-700">
-              <svg class="w-4 h-4 text-yellow-200" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M13.28 2.49a.75.75 0 0 1 1.17.64c.01.52-.08 1.1-.26 1.61a7.97 7.97 0 0 1-1.25 2.26c-.21.3-.19.71.05.98A4.25 4.25 0 0 1 10 14a4.25 4.25 0 0 1-4.25-4.25c0-1.01.36-1.96.97-2.68a6.7 6.7 0 0 0 1.35-2.39c.16-.6.15-1.2.05-1.8a.75.75 0 0 1 1.3-.63c.87.9 1.61 2.1 2.27 3.32a12.45 12.45 0 0 0 1.59-4.58z"/>
-              </svg>
-              ${tag.trim()}
-            </span>
-          `).join('')}
-        </div>
-        `
-        : ''
-    }
+
+  <p class="text-sm text-gray-600 flex-grow">${product.description}</p>
+
+
+  <div class="mt-4 flex justify-between items-center">
+    <span class="font-bold text-xl text-green-600">$${product.price.toFixed(2)}</span>
+    <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add to Cart</button>
   </div>
-;
-
+`;
 
         grid.appendChild(div);
       });
@@ -176,4 +184,3 @@
   <script src="js/main.js"></script>
 </body>
 </html>
-
