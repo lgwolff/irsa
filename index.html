@@ -140,12 +140,12 @@ div.innerHTML = `
     class="w-full h-full object-cover"
     loading="lazy"
   />
- ${
+${
   product.tags?.length
     ? `
     <div class="absolute top-2 right-2 flex flex-col gap-1 z-10">
       ${product.tags.map(tag => `
-        <span class="w-10 h-10 flex items-center justify-center text-[10px] font-bold text-yellow-300 rounded-full bg-red-600 shadow-md ring-2 ring-red-800">
+        <span class="w-10 h-10 flex items-center justify-center text-[10px] font-bold text-yellow-200 rounded-full bg-red-500/70 backdrop-blur-md shadow-lg ring-1 ring-red-700">
           ${tag.trim()}
         </span>
       `).join('')}
