@@ -133,8 +133,26 @@
         const div = document.createElement('div');
         div.className = 'border rounded p-4 flex flex-col';
 div.innerHTML = `
-  <img src="${product.images?.[0] || 'https://via.placeholder.com/300x200?text=No+Image'}" alt="${product.name}" class="mb-4 h-48 object-cover rounded" loading="lazy" />
-  <h3 class="text-lg font-semibold mb-2">${product.name}</h3>
+ <div class="relative mb-4 h-48">
+  <img 
+    src="${product.images?.[0] || 'https://via.placeholder.com/300x200?text=No+Image'}"
+    alt="${product.name}"
+    class="w-full h-full object-cover rounded"
+    loading="lazy"
+  />
+  ${
+    product.tags?.length
+      ? `<div class="absolute top-2 left-2 flex flex-col gap-1 z-10">
+          ${product.tags.map(tag => `
+            <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded-full shadow">
+              ${tag.trim()}
+            </span>
+          `).join('')}
+        </div>`
+      : ''
+  }
+</div>
+
   <p class="text-sm text-gray-600 flex-grow">${product.description}</p>
 
   ${
