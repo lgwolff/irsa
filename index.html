@@ -129,17 +129,25 @@
         return;
       }
 
-      products.forEach(product => {
-        const div = document.createElement('div');
-        div.className = 'border rounded p-4 flex flex-col';
-div.innerHTML = `
-<div class="relative mb-4 h-48 overflow-hidden rounded">
-  <img 
-    src="${product.images?.[0] || 'https://via.placeholder.com/300x200?text=No+Image'}"
-    alt="${product.name}"
-    class="w-full h-full object-cover"
-    loading="lazy"
-  />
+    products.forEach(product => {
+  const div = document.createElement('div');
+  div.className = 'border rounded p-4 flex flex-col cursor-pointer transition-transform hover:scale-105';
+  div.onclick = () => window.location.href = `/product.html?id=${product._id}`;
+
+  div.innerHTML = `
+    <div class="relative">
+      <img src="${product.images?.[0] || 'https://via.placeholder.com/300x200?text=No+Image'}"
+           alt="${product.name}"
+           class="mb-4 h-48 object-cover rounded w-full"
+           loading="lazy" />
+    </div>
+    <h3 class="text-lg font-semibold mb-2">${product.name}</h3>
+    <p class="text-sm text-gray-600 flex-grow">${product.description}</p>
+    <div class="mt-4 flex justify-between items-center">
+      <span class="font-bold text-xl text-green-600">$${product.price.toFixed(2)}</span>
+      <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add to Cart</button>
+    </div>
+
 ${
   product.tags?.length
     ? `
