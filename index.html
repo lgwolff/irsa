@@ -133,18 +133,18 @@
         const div = document.createElement('div');
         div.className = 'border rounded p-4 flex flex-col';
 div.innerHTML = `
- <div class="relative mb-4 h-48">
+ <div class="relative mb-4 h-48 overflow-hidden rounded">
   <img 
     src="${product.images?.[0] || 'https://via.placeholder.com/300x200?text=No+Image'}"
     alt="${product.name}"
-    class="w-full h-full object-cover rounded"
+    class="w-full h-full object-cover"
     loading="lazy"
   />
   ${
     product.tags?.length
-      ? `<div class="absolute top-2 right-2 flex flex-col gap-1 z-10">
+      ? `<div class="absolute top-2 right-2 flex flex-col gap-1 z-10 max-h-20 overflow-y-auto pr-1">
           ${product.tags.map(tag => `
-            <span class="bg-red-100 text-yellow-800 text-xs font-semibold px-2 py-0.5 rounded-full shadow backdrop-blur-sm max-h-16 overflow-y-auto">
+            <span class="backdrop-blur-sm bg-red-600/60 text-white text-xs font-semibold px-3 py-1 rounded-full shadow">
               ${tag.trim()}
             </span>
           `).join('')}
@@ -152,6 +152,7 @@ div.innerHTML = `
       : ''
   }
 </div>
+
 
   <p class="text-sm text-gray-600 flex-grow">${product.description}</p>
 
